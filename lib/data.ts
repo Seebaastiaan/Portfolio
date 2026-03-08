@@ -1,6 +1,6 @@
 export const personalInfo = {
   name: "Sebastian Jara",
-  title: "Product Engineer",
+  title: "Software Engineer",
   bio: "I build interfaces that feel inevitable. Currently crafting experiences at the intersection of design and engineering.",
   email: "sebasjara1503@gmail.com",
   greeting: "Hey there 👋",
