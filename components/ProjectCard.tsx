@@ -2,8 +2,7 @@
 
 import { Project } from "@/lib/data";
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface ProjectCardProps {
   project: Project;
@@ -11,142 +10,187 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+    videoRef.current?.play().catch(() => {});
   }, []);
 
-  const sizeClasses = {
-    small: "col-span-full md:col-span-1 row-span-1",
-    medium: "col-span-full md:col-span-1 row-span-2",
-    large: "col-span-full md:col-span-2 row-span-2",
-    wide: "col-span-full md:col-span-2 row-span-1",
-  };
+  const primaryHref = project.liveUrl ?? project.githubUrl;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.1 * index }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ scale: 1.02 }}
-      className={`
-        ${sizeClasses[project.size]}
-        bg-white rounded-3xl overflow-hidden shadow-sm border border-neutral-200/50
-        hover:shadow-xl hover:border-neutral-300/80 transition-all duration-500
-        cursor-pointer group
-      `}
+    <motion.article
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.55, delay: 0.05 }}
+      className="group border-t border-cocoa-ink"
     >
-      {/* Image/Video Placeholder */}
-      <motion.div
-        className={`w-full relative overflow-hidden ${project.videoUrl || project.imageUrl ? "aspect-video" : "h-48"}`}
-        style={{
-          background:
-            project.videoUrl || project.imageUrl
-              ? undefined
-              : project.imagePlaceholder,
-        }}
-        animate={{ scale: isHovered ? 1.05 : 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {project.videoUrl ? (
-          <video
-            ref={videoRef}
-            src={project.videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : project.imageUrl ? (
-          <img
-            src={project.imageUrl}
-            alt={project.title}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        ) : null}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20" />
-      </motion.div>
+      {/* Header row — index sits as a small eyebrow above title */}
+      <div className="pt-10 pb-6">
+        <div className="mb-6 flex items-center justify-between">
+          <span className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink/70">
+            ({project.index}) — Project
+          </span>
+          <span className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink/70">
+            {project.year}
+          </span>
+        </div>
 
-      {/* Content */}
-      <div className="p-6 md:p-8">
-        <div className="flex items-start justify-between mb-3">
-          <h3 className="text-2xl font-bold font-mono text-neutral-900">
+        {primaryHref ? (
+          <a
+            href={primaryHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <h3 className="font-neuehaasdisplay text-[clamp(48px,10vw,144px)] leading-[0.88] tracking-[-0.03em] text-cocoa-ink uppercase break-words">
+              {project.title}
+            </h3>
+          </a>
+        ) : (
+          <h3 className="font-neuehaasdisplay text-[clamp(48px,10vw,144px)] leading-[0.88] tracking-[-0.03em] text-cocoa-ink uppercase break-words">
             {project.title}
           </h3>
+        )}
+      </div>
 
-          {/* Links - Visible on hover */}
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 10 }}
-            transition={{ duration: 0.3 }}
-            className="flex gap-2"
+      {/* Meta sub-row */}
+      <div className="grid grid-cols-12 gap-6 border-t border-cocoa-ink/30 py-5">
+        <div className="col-span-12 md:col-span-6">
+          <p className="eyebrow opacity-50 mb-1">Tagline</p>
+          <p className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink">
+            {project.tagline}
+          </p>
+        </div>
+
+        <div className="col-span-6 md:col-span-3">
+          <p className="eyebrow opacity-50 mb-1">Discipline</p>
+          <p className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink">
+            {project.role}
+          </p>
+        </div>
+
+        <div className="col-span-3 md:col-span-2">
+          <p className="eyebrow opacity-50 mb-1">Year</p>
+          <p className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink">
+            {project.year}
+          </p>
+        </div>
+
+        <div className="col-span-3 md:col-span-1 text-right">
+          <p className="eyebrow opacity-50 mb-1">View</p>
+          {project.liveUrl ? (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
+            >
+              Live ↗
+            </a>
+          ) : project.githubUrl ? (
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
+            >
+              Code ↗
+            </a>
+          ) : null}
+        </div>
+      </div>
+
+      {/* Media strip */}
+      <div className="mt-8">
+        <div className="relative w-full overflow-hidden bg-pure-white aspect-[21/9]">
+          {project.videoUrl ? (
+            <video
+              ref={videoRef}
+              src={project.videoUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.02]"
+            />
+          ) : project.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.02]"
+            />
+          ) : null}
+
+          <div
+            aria-hidden
+            className="absolute left-4 top-4 inline-flex items-center gap-2 font-sfuidisplay text-[11px] uppercase tracking-[0.08em] text-pure-white mix-blend-difference"
           >
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl bg-neutral-100 hover:bg-neutral-900 
-                         hover:text-white transition-colors duration-300"
-                onClick={(e) => e.stopPropagation()}
+            <span
+              aria-hidden
+              className="inline-block h-1.5 w-1.5 bg-alert-crimson"
+            />
+            {project.index} / {project.year}
+          </div>
+        </div>
+      </div>
+
+      {/* Description + stack */}
+      <div className="grid grid-cols-12 gap-6 pt-10 pb-16">
+        <div className="col-span-12 md:col-span-6">
+          <p className="font-sfuidisplay text-[15px] leading-[1.5] tracking-[-0.01em] text-cocoa-ink/85">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="col-span-12 md:col-span-5 md:col-start-8">
+          <p className="eyebrow opacity-50 mb-3">Stack</p>
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            {project.techStack.map((tech, i) => (
+              <li
+                key={tech}
+                className="font-sfuidisplay text-[11px] uppercase tracking-[0.06em] text-cocoa-ink"
               >
-                <Github className="w-4 h-4" />
-              </a>
-            )}
+                {tech}
+                {i < project.techStack.length - 1 && (
+                  <span aria-hidden className="ml-4 text-cocoa-ink/30">
+                    /
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-xl bg-neutral-100 hover:bg-[#7C3AED] 
-                         hover:text-white transition-colors duration-300"
-                onClick={(e) => e.stopPropagation()}
+                className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
               >
-                <ExternalLink className="w-4 h-4" />
+                Visit live ↗
               </a>
             )}
-          </motion.div>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
+              >
+                View source ↗
+              </a>
+            )}
+          </div>
         </div>
-
-        <p className="text-neutral-600 mb-4 leading-relaxed">
-          {project.description}
-        </p>
-
-        {/* Tech Stack - Revealed on hover */}
-        <motion.div
-          initial={{ opacity: 0, y: 10, height: 0 }}
-          animate={{
-            opacity: isHovered ? 1 : 0,
-            y: isHovered ? 0 : 10,
-            height: isHovered ? "auto" : 0,
-          }}
-          transition={{ duration: 0.4 }}
-          className="flex flex-wrap gap-2 overflow-hidden"
-        >
-          {project.techStack.map((tech, i) => (
-            <motion.span
-              key={tech}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{
-                opacity: isHovered ? 1 : 0,
-                scale: isHovered ? 1 : 0.8,
-              }}
-              transition={{ delay: i * 0.05 }}
-              className="px-3 py-1 bg-neutral-100 text-neutral-700 rounded-lg 
-                       text-xs font-medium font-mono"
-            >
-              {tech}
-            </motion.span>
-          ))}
-        </motion.div>
       </div>
-    </motion.div>
+
+      <span aria-hidden className="sr-only">
+        {index}
+      </span>
+    </motion.article>
   );
 }

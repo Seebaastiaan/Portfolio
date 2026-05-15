@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["300", "400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Sebastian Jara | Software Engineer",
+  title: "Sebastian Jara — Software Engineer",
   description:
-    "Building interfaces that feel inevitable. Product engineer crafting experiences at the intersection of design and engineering.",
+    "Sebastian Jara — Software Engineer. Type-driven, architectural product interfaces.",
   icons: {
-    icon: "/icon.png", // Place your icon in the /public folder
+    icon: "/icon.png",
   },
 };
 
@@ -16,8 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="antialiased">{children}</body>
+    <html lang="en" className={`${inter.variable} scroll-smooth`}>
+      <body className="bg-canvas-parchment text-cocoa-ink antialiased">
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,43 +1,68 @@
 "use client";
 
-import { navigation } from "@/lib/data";
-import { motion } from "framer-motion";
+import { globalNav, personalInfo } from "@/lib/data";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <motion.header
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? "bg-canvas-parchment/90 backdrop-blur-md"
+          : "bg-canvas-parchment"
+      }`}
     >
-      <nav
-        className="bg-white/80 backdrop-blur-xl rounded-full px-6 py-3 
-                    shadow-lg border border-neutral-200/50"
-      >
-        <ul className="flex items-center gap-8">
-          {navigation.map((item, i) => (
-            <motion.li
-              key={item.label}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i }}
-            >
-              <a
-                href={item.href}
-                className="text-neutral-700 hover:text-[#7C3AED] font-medium text-sm 
-                         transition-colors duration-300 relative group"
-              >
-                {item.label}
-                <span
-                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#7C3AED] 
-                               group-hover:w-full transition-all duration-300"
-                />
-              </a>
-            </motion.li>
-          ))}
-        </ul>
-      </nav>
-    </motion.header>
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-8 lg:px-12">
+        <a
+          href="#top"
+          aria-label={`${personalInfo.name} — home`}
+          className="text-cocoa-ink"
+        >
+          <span className="font-neuehaasdisplay text-[20px] leading-none tracking-[-0.02em]">
+            {personalInfo.name.split(" ")[0].toUpperCase()}
+            <span className="opacity-50">
+              {" "}
+              / {personalInfo.name.split(" ")[1].toUpperCase()}
+            </span>
+          </span>
+        </a>
+
+        <nav aria-label="Primary" className="hidden md:block">
+          <ul className="flex items-center gap-12">
+            {globalNav.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  target={item.href.startsWith("/") ? "_blank" : undefined}
+                  rel={
+                    item.href.startsWith("/")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                  className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="hidden md:block">
+          <span className="font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink/70">
+            {personalInfo.location.split("·")[0].trim()}
+          </span>
+        </div>
+      </div>
+    </header>
   );
 }

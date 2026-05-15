@@ -1,57 +1,180 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+@theme {
+  /* Colors — Leonid Kostetskyi palette */
+  --color-canvas-parchment: #fdfaf3;
+  --color-cocoa-ink: #472425;
+  --color-pure-white: #ffffff;
+  --color-absolute-black: #000000;
+  --color-deep-charcoal: #121212;
+  --color-alert-crimson: #e73737;
+
+  /* Typography — Font Families (Inter is the available web fallback) */
+  --font-sfuidisplay:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-neuehaasdisplay:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-arial:
+    Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-sfuidisplay);
+
+  /* Typography — Scale */
+  --text-heading: 27px;
+  --text-heading--line-height: 1;
+  --text-heading--letter-spacing: -0.54px;
+  --text-display-lg: 135px;
+  --text-display-lg--line-height: 0.86;
+  --text-display-lg--letter-spacing: -3.375px;
+  --text-display: 188px;
+  --text-display--line-height: 0.86;
+  --text-display--letter-spacing: -4.7px;
+
+  /* Border Radius — keep sharp */
+  --radius-none: 0px;
+  --radius-pill: 9999px;
+}
+
 :root {
-  --background: #fafaf8;
-  --foreground: #171717;
+  --background: var(--color-canvas-parchment);
+  --foreground: var(--color-cocoa-ink);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "Courier New", monospace;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Custom animations */
-@keyframes slideUp {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-50%);
-  }
-}
-
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for webkit browsers */
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family: var(--font-sfuidisplay);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--color-cocoa-ink);
+  color: var(--color-canvas-parchment);
+}
+
+/* Scrollbar — quiet parchment palette */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-canvas-parchment);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #7c3aed;
-  border-radius: 4px;
+  background: var(--color-cocoa-ink);
+  border-radius: 0;
+  border: 3px solid var(--color-canvas-parchment);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #6d28d9;
+/* Display headlines — monumental NeueHaas character */
+.display-mega {
+  font-family: var(--font-neuehaasdisplay);
+  font-weight: 400;
+  font-size: clamp(72px, 19vw, 188px);
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+  color: var(--color-cocoa-ink);
+}
+
+.display-lg {
+  font-family: var(--font-neuehaasdisplay);
+  font-weight: 400;
+  font-size: clamp(56px, 13vw, 135px);
+  line-height: 0.86;
+  letter-spacing: -0.025em;
+  color: var(--color-cocoa-ink);
+}
+
+.heading {
+  font-family: var(--font-neuehaasdisplay);
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 27px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-cocoa-ink);
+}
+
+/* Section label small caps style */
+.eyebrow {
+  font-family: var(--font-sfuidisplay);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-cocoa-ink);
+}
+
+/* Dashed underline anchor (Kostetskyi-style nav hover) */
+.link-dashed {
+  position: relative;
+  display: inline-block;
+  color: var(--color-cocoa-ink);
+  transition: opacity 0.2s ease;
+}
+.link-dashed::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  border-bottom: 1px dashed var(--color-cocoa-ink);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.link-dashed:hover::after,
+.link-dashed[data-active="true"]::after {
+  opacity: 1;
+}
+
+/* Outlined input field (Cocoa Ink) */
+.field-outlined {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-cocoa-ink);
+  border-radius: 0;
+  color: var(--color-cocoa-ink);
+  font-family: var(--font-sfuidisplay);
+  font-size: 12px;
+  padding: 3px 75px 5px 0;
+  outline: none;
+  width: 100%;
+}
+.field-outlined::placeholder {
+  color: var(--color-cocoa-ink);
+  opacity: 0.6;
+}
+
+/* Marquee for the skills strip */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 60s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
