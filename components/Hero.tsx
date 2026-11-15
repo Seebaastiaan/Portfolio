@@ -1,92 +1,83 @@
-"use client";
-
 import { personalInfo, socialLinks } from "@/lib/data";
-import { motion } from "framer-motion";
+import MatrixFigure from "./MatrixFigure";
+import Measure from "./Measure";
+import { Split, Zone } from "./Zone";
+
+const delay = (ms: number) => ({ "--delay": `${ms}ms` }) as React.CSSProperties;
 
 export default function Hero() {
   const [first, last] = personalInfo.name.split(" ");
 
   return (
-    <section
-      id="top"
-      className="relative overflow-hidden bg-canvas-parchment pt-[120px] lg:pt-[140px]"
-    >
-      <div className="mx-auto max-w-[1440px] px-8 lg:px-12">
-        {/* Top meta row */}
-        <div className="grid grid-cols-12 gap-6 pb-12">
-          <div className="col-span-12 md:col-span-4">
-            <p className="eyebrow opacity-70">
-              <span className="text-cocoa-ink">(01)</span>
-              <span className="mx-3 inline-block align-middle h-px w-6 bg-cocoa-ink/40" />
-              Portfolio · 2026
-            </p>
+    <Zone id="top" letter="A" label="Cover">
+      <Split
+        side={
+          <div className="land" style={delay(500)}>
+            <MatrixFigure />
           </div>
-          <div className="col-span-12 md:col-span-4 md:col-start-9 md:text-right">
-            <p className="eyebrow opacity-70 inline-flex items-center gap-2">
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 bg-alert-crimson"
-              />
-              {personalInfo.status}
-            </p>
-          </div>
+        }
+      >
+        <div className="anno land flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
+          <span className="text-ink-soft">Portfolio — General arrangement</span>
+          <span className="inline-flex items-center gap-2.5">
+            <span aria-hidden className="h-1.5 w-1.5 bg-accent" />
+            {personalInfo.status}
+          </span>
         </div>
 
-        {/* Monumental headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="display-mega select-none"
+        <div className="mt-16 lg:mt-24">
+          <Measure fit>
+            <h1 className="name land" style={delay(120)}>
+              {first}
+              <br />
+              {last}
+            </h1>
+          </Measure>
+        </div>
+
+        <div
+          aria-hidden
+          className="draw-x mt-14 h-px bg-line lg:mt-20"
+          style={delay(350)}
+        />
+
+        <div
+          className="land mt-8 grid gap-x-10 gap-y-8 md:grid-cols-[200px_minmax(0,1fr)]"
+          style={delay(450)}
         >
-          {first.toUpperCase()}
-          <br />
-          {last.toUpperCase()}
-        </motion.h1>
+          <dl className="anno grid grid-cols-2 gap-6 md:grid-cols-1 md:content-start">
+            <div>
+              <dt className="text-ink-soft">Role</dt>
+              <dd className="mt-1">{personalInfo.role}</dd>
+            </div>
+            <div>
+              <dt className="text-ink-soft">Based</dt>
+              <dd className="mt-1">{personalInfo.location}</dd>
+              <dd className="text-ink-soft">{personalInfo.availability}</dd>
+            </div>
+          </dl>
 
-        {/* Sub-grid */}
-        <div className="mt-20 grid grid-cols-12 gap-6 border-t border-cocoa-ink pt-8 pb-[160px] lg:pb-[200px]">
-          <div className="col-span-12 md:col-span-3">
-            <p className="eyebrow opacity-60">Role</p>
-            <p className="mt-2 font-sfuidisplay text-[15px] leading-[1.4] tracking-[-0.01em] text-cocoa-ink">
-              {personalInfo.role}
-            </p>
-          </div>
-
-          <div className="col-span-12 md:col-span-3">
-            <p className="eyebrow opacity-60">Based</p>
-            <p className="mt-2 font-sfuidisplay text-[15px] leading-[1.4] tracking-[-0.01em] text-cocoa-ink">
-              {personalInfo.location}
-            </p>
-            <p className="mt-2 font-sfuidisplay text-[15px] leading-[1.4] tracking-[-0.01em] text-cocoa-ink">
-              {personalInfo.location2}
-            </p>
-          </div>
-
-          <div className="col-span-12 md:col-span-6">
-            <p className="eyebrow opacity-60">Manifesto</p>
-            <p className="mt-2 font-sfuidisplay text-[15px] leading-[1.4] tracking-[-0.01em] text-cocoa-ink uppercase">
+          <div>
+            <p className="lead max-w-[22ch]">{personalInfo.headline}</p>
+            <p className="mt-4 max-w-[52ch] text-ink-soft">
               {personalInfo.subheadline}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-3">
-              <a
-                href="#work"
-                className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
-              >
-                View selected work →
+            <div className="anno mt-8 flex flex-wrap gap-3">
+              <a href="#work" className="btn">
+                View figures <span aria-hidden>↓</span>
               </a>
               <a
                 href={socialLinks.resume}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-dashed font-sfuidisplay text-[12px] uppercase tracking-[0.04em] text-cocoa-ink"
+                className="btn"
               >
-                Read résumé ↗
+                Résumé <span aria-hidden>↗</span>
               </a>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Split>
+    </Zone>
   );
 }

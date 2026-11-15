@@ -1,21 +1,33 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["300", "400"],
+  axes: ["wdth"],
+  variable: "--font-archivo",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Sebastian Jara — Software Engineer",
   description:
-    "Sebastian Jara — Software Engineer. Type-driven, architectural product interfaces.",
+    "Sebastian Jara, software engineer in Mexico City. A portfolio drawn as a single engineering sheet: figures, notes and materials.",
   icons: {
     icon: "/icon.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#f3f3ee",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -24,10 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <body className="bg-canvas-parchment text-cocoa-ink antialiased">
-        {children}
-      </body>
+    <html lang="en" className={`${archivo.variable} ${plexMono.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

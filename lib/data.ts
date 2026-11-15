@@ -1,15 +1,21 @@
 export const personalInfo = {
   name: "Sebastian Jara",
-  title: "Software Engineer",
   role: "Software Engineer",
-  location: "Remote · Available worldwide",
-  location2: "Mexico City, Mexico",
+  location: "Mexico City, Mexico",
+  availability: "Remote · Available worldwide",
   status: "Open to new opportunities",
   headline: "Engineering. Designed.",
   subheadline:
     "Precise, performant product interfaces — built end-to-end with the same care a design team gives a poster.",
   bio: "I'm a software engineer who treats engineering as a design discipline. I build systems, not just screens — focused on frontend craft, design systems, and applied engineering.",
   email: "sebasjara1503@gmail.com",
+};
+
+/** Drawing metadata — the portfolio is laid out as a single engineering sheet. */
+export const sheet = {
+  number: "SJ—001",
+  coordinates: "19.4326° N  99.1332° W",
+  scale: "1:1",
 };
 
 export const socialLinks = {
@@ -21,7 +27,6 @@ export const socialLinks = {
 
 export interface Project {
   id: string;
-  index: string;
   title: string;
   tagline: string;
   description: string;
@@ -29,6 +34,10 @@ export interface Project {
   role: string;
   videoUrl?: string;
   imageUrl?: string;
+  /** Intrinsic media ratio (width / height) so the frame never crops the work. */
+  mediaRatio: string;
+  /** Trim this much off the top of the image (the source diagram has a cut-off caption). */
+  imageTrimTop?: string;
   techStack: string[];
   githubUrl?: string;
   liveUrl?: string;
@@ -37,7 +46,6 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "1",
-    index: "01",
     title: "LearnQuest",
     tagline: "Gamified exam prep, end-to-end.",
     description:
@@ -45,6 +53,7 @@ export const projects: Project[] = [
     year: "2025",
     role: "Solo product engineer",
     videoUrl: "/LearnQuestPromo.mp4",
+    mediaRatio: "1080 / 720",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -58,7 +67,6 @@ export const projects: Project[] = [
   },
   {
     id: "2",
-    index: "02",
     title: "MindfulSpace",
     tagline: "AI-assisted journaling for emotional clarity.",
     description:
@@ -66,6 +74,7 @@ export const projects: Project[] = [
     year: "2024",
     role: "Design & engineering",
     videoUrl: "/MindfulSpacePromo.mp4",
+    mediaRatio: "1280 / 720",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -79,7 +88,6 @@ export const projects: Project[] = [
   },
   {
     id: "3",
-    index: "03",
     title: "Algoritmo Lanczos",
     tagline: "Eigenvalue approximation in pure C.",
     description:
@@ -87,6 +95,8 @@ export const projects: Project[] = [
     year: "2024",
     role: "Numerical methods coursework",
     imageUrl: "/Lanczos.png",
+    mediaRatio: "748 / 363",
+    imageTrimTop: "4%",
     techStack: ["C", "Linear Algebra", "Numerical Methods"],
     githubUrl: "https://github.com/Seebaastiaan/AlgoritmoLanczos",
   },
@@ -117,51 +127,24 @@ export const skills: { group: string; items: string[] }[] = [
   },
 ];
 
-export const skillMarquee = [
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "Supabase",
-  "PostgreSQL",
-  "GraphQL",
-  "Tailwind CSS",
-  "Framer Motion",
-  "Figma",
-  "System Design",
-  "Accessibility",
-  "Web Performance",
-];
-
 export const principles = [
   {
-    index: "01",
     title: "Engineering as craft.",
     body: "Treat the codebase as a product surface. Readable diffs, tight types, intentional abstractions over clever ones.",
   },
   {
-    index: "02",
     title: "Design that explains itself.",
     body: "Interfaces should feel inevitable. The right hierarchy, the right typography, the right amount of motion — nothing more.",
   },
   {
-    index: "03",
     title: "Systems, not screens.",
     body: "Tokens, primitives, patterns. Build so the product can scale without entropy creeping in.",
   },
 ];
 
 export const navigation = [
-  { label: "Overview", href: "#top" },
   { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Stack", href: "#skills" },
+  { label: "Notes", href: "#notes" },
+  { label: "Materials", href: "#materials" },
   { label: "Contact", href: "#contact" },
-];
-
-export const globalNav = [
-  { label: "Work", href: "#work" },
-  { label: "About", href: "#about" },
-  { label: "Stack", href: "#skills" },
-  { label: "Resume", href: "/Resume.pdf" },
 ];

@@ -1,23 +1,21 @@
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Figures from "@/components/Figures";
 import Hero from "@/components/Hero";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
+import Materials from "@/components/Materials";
+import Notes from "@/components/Notes";
+import SheetHeader from "@/components/SheetHeader";
+import TitleBlock from "@/components/TitleBlock";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-canvas-parchment text-cocoa-ink">
-      <Header />
+    <div className="sheet min-h-screen">
+      <SheetHeader />
       <main>
         <Hero />
-        <Projects />
-        <About />
-        <Skills />
-        <Contact />
+        <Figures />
+        <Notes />
+        <Materials />
+        <TitleBlock />
       </main>
-      <Footer />
     </div>
   );
 }
