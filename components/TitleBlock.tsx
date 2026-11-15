@@ -29,7 +29,7 @@ export default function TitleBlock() {
   const year = new Date().getFullYear();
 
   return (
-    <Zone id="contact" letter="E" label="Title block">
+    <Zone id="contact" letter="D" label="Title block">
       <Split
         side={
           <dl className="anno grid grid-cols-3 border border-ink bg-paper [&>div]:border-ink">
@@ -70,7 +70,7 @@ export default function TitleBlock() {
 
         <a
           href={socialLinks.email}
-          className="link wide mt-10 block w-fit max-w-full break-all text-[clamp(20px,3.6vw,48px)] font-light leading-[1.15] tracking-[-0.025em]"
+          className="link wide mt-10 block w-fit whitespace-nowrap text-[clamp(15px,6.3cqi,48px)] font-light leading-[1.15] tracking-[-0.025em]"
         >
           {personalInfo.email}
         </a>

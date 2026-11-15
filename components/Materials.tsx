@@ -4,7 +4,7 @@ import { Zone } from "./Zone";
 /** The stack, set as the bill of materials every drawing carries. */
 export default function Materials() {
   return (
-    <Zone id="materials" letter="D" label="Materials">
+    <Zone id="materials" letter="C" label="Materials">
       <div className="px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
         <div className="anno flex flex-wrap items-center justify-between gap-x-8 gap-y-1">
           <h2 className="font-medium">Bill of materials</h2>

@@ -23,13 +23,10 @@ export default function SheetHeader() {
       <nav aria-label="Primary" className="flex min-w-0 flex-1 items-center">
         <ul className="anno flex w-full items-center justify-end gap-5 px-5 sm:gap-8 sm:px-8 lg:justify-start lg:px-12">
           {navigation.map((item) => (
-            <li
-              key={item.href}
-              className={item.label === "Materials" ? "hidden sm:block" : ""}
-            >
+            <li key={item.href}>
               <a
                 href={item.href}
-                className="transition-colors hover:text-accent"
+                className="block py-3 transition-colors hover:text-accent"
               >
                 {item.label}
               </a>
@@ -40,7 +37,7 @@ export default function SheetHeader() {
               href={socialLinks.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-accent"
+              className="block py-3 transition-colors hover:text-accent"
             >
               Résumé ↗
             </a>
@@ -51,7 +48,7 @@ export default function SheetHeader() {
       <div className="anno hidden items-center whitespace-pre border-l border-line px-6 text-ink-soft xl:flex">
         {sheet.coordinates}
       </div>
-      <div className="hidden w-[190px] items-center justify-center border-l border-line lg:flex">
+      <div className="hidden w-[190px] items-center justify-center border-l border-line lg:flex [@media(pointer:coarse)]:hidden">
         <Cursor />
       </div>
     </header>

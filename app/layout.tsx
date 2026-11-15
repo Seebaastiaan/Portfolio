@@ -16,10 +16,19 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+const description =
+  "Sebastian Jara, software engineer in Mexico City. A portfolio drawn as a single engineering sheet, with every project as a 3D model you can turn.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfolio-sebas-jara24.vercel.app"),
   title: "Sebastian Jara — Software Engineer",
-  description:
-    "Sebastian Jara, software engineer in Mexico City. A portfolio drawn as a single engineering sheet: figures, notes and materials.",
+  description,
+  openGraph: {
+    title: "Sebastian Jara — Software Engineer",
+    description,
+    type: "website",
+    url: "/",
+  },
   icons: {
     icon: "/icon.png",
   },

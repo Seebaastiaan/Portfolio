@@ -1,66 +1,20 @@
-"use client";
-
 import type { Project } from "@/lib/data";
-import { useEffect, useRef } from "react";
+import ModelViewport from "./ModelViewport";
 
-/** The drawing inside a figure frame. Videos only run while on screen. */
+/** The drawing inside a figure frame: the project's 3D model. */
 export default function FigureMedia({ project }: { project: Project }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.controls = true;
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
-        else video.pause();
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div className="frame">
       <i className="mark tl" />
       <i className="mark tr" />
       <i className="mark bl" />
       <i className="mark br" />
-      {project.videoUrl ? (
-        <video
-          ref={videoRef}
-          src={project.videoUrl}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-label={`${project.title} — product walkthrough`}
-          style={{ aspectRatio: project.mediaRatio }}
-          className="block w-full object-cover"
+      <div className="aspect-[4/3] max-h-[calc(100svh-7rem)] min-h-[200px] w-full sm:aspect-video">
+        <ModelViewport
+          model={project.model}
+          label={`${project.title} — 3D model.`}
         />
-      ) : project.imageUrl ? (
-        <div className="p-6 sm:p-10">
-          {/* A line diagram: multiply it so its white becomes the sheet's paper. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={project.imageUrl}
-            alt={`${project.title} — diagram of the restarted Lanczos loop`}
-            loading="lazy"
-            style={{
-              aspectRatio: project.mediaRatio,
-              clipPath: project.imageTrimTop
-                ? `inset(${project.imageTrimTop} 0 0 0)`
-                : undefined,
-            }}
-            className="block w-full mix-blend-multiply"
-          />
-        </div>
-      ) : null}
+      </div>
     </div>
   );
 }
